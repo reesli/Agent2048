@@ -21,8 +21,9 @@ from agent2048.theme import WAYBAR_THEME
 
 
 COMMAND_HELP = {
-    "ask": "Run a one-shot task: ask <task>",
+    "ask": "Run a one-shot task: ask <task> [--auto|--ask]",
     "chat": "Enter interactive chat mode",
+    "auto": "Toggle auto-approve: auto on | auto off",
     "stats": "Show memory stats: stats [--db <db>]",
     "memory": "Search memory: memory <query>",
     "dive": "Dive into memory item: dive <item_id>",
@@ -46,7 +47,8 @@ def run_tui(db: str = "./memory.db", workdir: Path = Path(".")) -> None:
     completer = NestedCompleter.from_nested_dict(
         {
             "ask": None,
-            "chat": {"--auto": None},
+            "chat": None,
+            "auto": {"on": None, "off": None},
             "stats": {"--db": None, "--include-merged": None},
             "memory": None,
             "dive": None,
@@ -62,8 +64,16 @@ def run_tui(db: str = "./memory.db", workdir: Path = Path(".")) -> None:
         }
     )
 
+    # Auto-approve mode state
+    auto_mode = False
+
+    def get_prompt() -> str:
+        if auto_mode:
+            return "agent2048 [auto]> "
+        return "agent2048> "
+
     session = PromptSession(
-        "agent2048> ",
+        get_prompt(),
         history=FileHistory(str(history_path)),
         auto_suggest=AutoSuggestFromHistory(),
         completer=completer,
@@ -96,6 +106,21 @@ def run_tui(db: str = "./memory.db", workdir: Path = Path(".")) -> None:
                 console.print(f"[agent.accent]{name:12}[/agent.accent] [agent.text]{desc}[/agent.text]")
             continue
 
+        # Auto mode toggle
+        if cmd == "auto":
+            if not args or args[0] not in ("on", "off"):
+                console.print("[agent.danger]Usage: auto on | auto off[/agent.danger]")
+                continue
+            auto_mode = args[0] == "on"
+            status = "[agent.success]ON[/agent.success]" if auto_mode else "[agent.warn]OFF[/agent.warn]"
+            console.print(f"Auto-approve: {status}")
+            if auto_mode:
+                console.print("[agent.muted]All ask commands will run with --auto (no approval prompts)[/agent.muted]")
+            else:
+                console.print("[agent.muted]Ask commands will prompt for approval on WRITE/RUN[/agent.muted]")
+            session.message = get_prompt()
+            continue
+
         import subprocess
         import sys
 
@@ -107,7 +132,7 @@ def run_tui(db: str = "./memory.db", workdir: Path = Path(".")) -> None:
                 console.print("[agent.danger]Usage: ask <task> [--auto|--ask][/agent.danger]")
                 continue
             # Extract flags
-            auto_flag = False
+            auto_flag = auto_mode  # Use global auto_mode as default
             ask_flag = False
             task_parts = []
             for arg in args:
@@ -115,6 +140,7 @@ def run_tui(db: str = "./memory.db", workdir: Path = Path(".")) -> None:
                     auto_flag = True
                 elif arg == "--ask":
                     ask_flag = True
+                    auto_flag = False
                 else:
                     task_parts.append(arg)
             if not task_parts:

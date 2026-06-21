@@ -1,0 +1,33 @@
+# Agent2048 user configuration (inspired by Codex CLI and Claude CLI)
+
+model = "gpt-4o-mini"
+provider = "openai"
+# base_url = "https://api.openai.com/v1"
+reasoning_effort = "medium"
+
+# Global permissions: auto, ask, or deny
+trust_level = "ask"
+
+[permissions]
+allow = [
+    "READ",
+    "WRITE",
+    "RUN(python3",
+    "RUN(pytest",
+    "RUN(ls",
+]
+deny = [
+    "RUN(rm -rf",
+    "RUN(sudo",
+    "RUN(mkfs",
+]
+
+# Per-project overrides
+[projects."/home/liskil/hackaton"]
+trust_level = "ask"
+allow = [
+    "READ",
+    "WRITE",
+    "RUN(python3",
+    "RUN(pytest",
+]

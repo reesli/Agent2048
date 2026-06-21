@@ -1,0 +1,35 @@
+[project]
+name = "agent2048"
+version = "0.1.0"
+description = "CLI for AI agents with hierarchical 2048-style memory"
+requires-python = ">=3.10"
+dependencies = [
+    "typer>=0.12.0",
+    "rich>=13.0.0",
+    "openai>=1.30.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "numpy>=1.26.0",
+    "fastembed>=0.8.0",
+    "tiktoken>=0.13.0",
+    "prompt_toolkit>=3.0.0",
+    "tomli-w>=1.2.0",
+    "sqlite-vec>=0.1.9",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[project.scripts]
+agent2048 = "agent2048.cli:app"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["agent2048*"]

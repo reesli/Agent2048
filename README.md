@@ -56,9 +56,49 @@ When starting a new task, the agent loads the relevant **L4 principle** (190 tok
 
 ## Demo
 
-```bash
-./demo.sh    # 30-second showcase
+```text
+$ agent2048 tui
+Agent2048 Control Panel
+Tab to complete, ↑↓ for history, /help for commands
+
+agent2048> auto on
+Auto-approve: ON
+
+agent2048 [auto]> ask audit the system
+→ task: audit the system
+→ memory: 10 items loaded
+→ step 1 ⚙️ List project files
+→ step 2 📄 Read agent2048/actions.py
+→ step 3 🤔 Security is solid, path traversal fixed...
+→ step 4 ✅ System is production-ready, 9.5/10
+→ done
+
+agent2048 [auto]> ask what are your recommendations?
+→ task: what are your recommendations?
+→ memory: 10 items loaded
+→ step 1 ✅ Based on L4 memory: stop reviewing, focus on features.
+
+agent2048 [auto]> stats
+    Memory Pyramid (2048)
+┏━━━━━━━┳━━━━━━━━━━━┳━━━━━━━┓
+┃ Level ┃ Name      ┃ Count ┃
+┡━━━━━━━╇━━━━━━━━━━━╇━━━━━━━┩
+│   1   │ Fact      │    16 │
+│   2   │ Pattern   │     3 │
+│   3   │ Concept   │     2 │
+│   4   │ Principle │     1 │
+│   —   │ Total     │    22 │
+└───────┴───────────┴───────┘
+
+agent2048 [auto]> dive <L4_id>
+L4 [task]: System is production-ready, 9.5/10...
+  L3 [task]: Performance-audit-driven optimization...
+    L2 [task]: Security audit converged...
+      L1 [task]: First audit: 7/10, 2 critical issues...
+      L1 [task]: Second audit: 8.5/10, all fixed...
 ```
+
+**Key moment**: The second `ask` answered in **1 step** (not 30) because the agent loaded the L4 principle from memory.
 
 ## Metrics
 

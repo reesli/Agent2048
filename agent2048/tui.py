@@ -231,7 +231,9 @@ def run_tui(db: str = "./memory.db", workdir: Path = Path(".")) -> None:
             continue
 
         try:
-            subprocess.run(full, cwd=cwd)
+            # Pass stdin/stdout/stderr directly so subprocess can read user input
+            # (needed for approval prompts in ask/chat commands).
+            subprocess.run(full, cwd=cwd, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr)
         except Exception as e:
             console.print(f"[agent.danger]Error running command: {e}[/agent.danger]")
 

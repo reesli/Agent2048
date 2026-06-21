@@ -140,11 +140,13 @@ class Agent:
                     except Exception as e:
                         logger.warning("Failed to save task result to memory: %s", e)
                     self._compute_metrics(messages)
+                    self._print_metrics()
                     return result.get("result", "")
 
         self.console.print("[agent.warn]→ max steps reached[/agent.warn]")
         self._save_partial_memory(task, history)
         self._compute_metrics(messages)
+        self._print_metrics()
         return "Agent reached max steps without finishing."
 
     def _save_partial_memory(self, task: str, history: list[dict[str, Any]]) -> None:
@@ -168,3 +170,19 @@ class Agent:
             count_tokens(msg.get("content", "")) for msg in messages
         )
         _, self.last_memory_tokens = self.memory.get_token_counts()
+
+    def _print_metrics(self) -> None:
+        """Print compression metrics after a run."""
+        stats = self.memory.stats()
+        total_items = sum(stats.values())
+        ratio = self.last_log_tokens / self.last_memory_tokens if self.last_memory_tokens > 0 else 0
+
+        self.console.print()
+        self.console.print(f"[agent.muted]→ log tokens: {self.last_log_tokens:,} | memory tokens: {self.last_memory_tokens:,} | compression: {ratio:.1f}x[/agent.muted]")
+
+        # Show pyramid
+        parts = []
+        for level in sorted(stats.keys()):
+            parts.append(f"{stats[level]} {level.replace('level_', 'L')}")
+        if parts:
+            self.console.print(f"[agent.muted]→ memory pyramid: {' | '.join(parts)} ({total_items} active)[/agent.muted]")

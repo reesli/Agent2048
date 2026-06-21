@@ -4,6 +4,20 @@ A CLI framework for AI agents with hierarchical memory inspired by the **2048** 
 
 > **56,000 tokens → 390 tokens (99% savings).** The agent always knows your project, without re-reading files.
 
+## Beyond Token Savings — Real Programming, Not Vibe Coding
+
+Most AI coding tools work in a "do this / continue / write something" mode — you give a vague prompt, the agent guesses what you want, writes code, and forgets everything. This is **vibe coding**: fun for prototypes, dangerous for real projects.
+
+Agent2048 takes a different approach: **conscious task execution with persistent memory.**
+
+- **Set real tasks, not vibes.** Instead of "write a function that does X", you say "audit the security of this module and fix what you find". The agent works step-by-step: reads files, analyzes, writes code, runs tests, saves findings to memory.
+
+- **The agent remembers.** Next time you ask about the project, it doesn't start from scratch. It loads the L4 principle ("production-ready, 9.5/10, stop reviewing") and gives you an answer in 1 step instead of 30.
+
+- **Knowledge compounds.** Facts merge into patterns, patterns into concepts, concepts into principles. The more you use it, the smarter it gets about your specific project.
+
+This is not a chatbot that writes code. It's an **agent with project awareness** that does real software engineering work.
+
 ## The Problem
 
 Every time you ask an AI agent to work on your project:

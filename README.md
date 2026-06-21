@@ -62,6 +62,16 @@ See [PITCH_DECK.md](PITCH_DECK.md) for the 5-slide presentation.
 
 ## Installation
 
+### One command (recommended)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/reesli/Agent2048/main/install.sh | bash
+```
+
+This clones the repo, creates a venv, installs the package, and creates a global `agent2048` command. After installation, edit `~/.config/agent2048/.env` to add your API key.
+
+### Manual
+
 ```bash
 # Global venv (once)
 python3 -m venv ~/.venvs/agent2048

@@ -438,12 +438,118 @@ The interface uses a color scheme inspired by your `waybar` config (Dracula-like
 - `agent2048/agent.py` — agent loop with retry
 - `agent2048/actions.py` — agent actions
 - `agent2048/prompts.py` — system prompts
-- `agent2048/providers.py` — provider registry
+- `agent2048/providers.py` — provider registry (28+ providers including 0G)
 - `agent2048/theme.py` — color theme
 - `agent2048/toml_config.py` — TOML config and permissions
 - `agent2048/tui.py` — interactive control panel
 - `agent2048/logging_config.py` — structured logging
 - `agent2048/exceptions.py` — typed exceptions
+- `agent2048/storage/zerog.py` — 0G Storage KV Layer backend
+
+## 0G Integration — Onchain Memory
+
+Agent2048 supports **0G Storage** as a memory backend — storing hierarchical memory onchain in 0G's KV Layer, designed for sub-second access to vector embeddings and dynamic state.
+
+### Why 0G Storage?
+
+0G Storage is the first modular, AI-native storage layer:
+- **KV Layer** — mutable, database-like Key-Value store for vector embeddings and agent state
+- **Log Layer** — append-only ledger for memory lineage and audit trails
+- **Sub-second latency** — real-time access, not cold archival
+- **Verifiable permanence** — cryptographic proofs of data availability
+- **95% cheaper** than AWS S3 for large datasets
+
+### Setup Guide
+
+#### 1. Get testnet tokens (free)
+
+```bash
+# Visit the 0G faucet
+open https://faucet.0g.ai
+
+# Or use Google Cloud faucet
+open https://cloud.google.com/application/web3/faucet/0g/galileo
+```
+
+Each wallet receives **0.1 0G tokens per day** (sufficient for testing).
+
+#### 2. Add 0G Galileo testnet to your wallet
+
+```text
+Network Name:     0G Galileo Testnet
+Chain ID:         16602
+Token Symbol:     0G
+RPC URL:          https://evmrpc-testnet.0g.ai
+Block Explorer:   https://chainscan-galileo.0g.ai
+```
+
+#### 3. Configure Agent2048
+
+```bash
+# Activate 0G as LLM provider
+agent2048 use 0g --key your-testnet-private-key
+
+# Or manually edit .env
+```
+
+```bash
+# .env — 0G Compute for LLM inference
+OPENAI_API_KEY=your-testnet-private-key
+OPENAI_BASE_URL=https://evmrpc-testnet.0g.ai/v1
+MODEL=0g/compute/default
+
+# 0G Storage for onchain memory (optional)
+ZEROG_RPC=https://evmrpc-testnet.0g.ai
+ZEROG_PRIVATE_KEY=your-testnet-private-key
+ZEROG_KV_CONTRACT=0x22E03a6A89B950F1c82ec5e74F8eCa321a105296
+```
+
+#### 4. Use onchain memory
+
+When `ZEROG_PRIVATE_KEY` is set, Agent2048 automatically stores memory items in 0G Storage KV Layer instead of local SQLite. If 0G SDK is not installed, it falls back to local SQLite seamlessly.
+
+```bash
+# Run agent — memory stored on 0G Storage
+agent2048 ask "audit the system" --auto
+
+# Memory pyramid is now onchain
+agent2048 stats
+```
+
+### 0G Contract Addresses (Galileo Testnet)
+
+| Contract | Address |
+|----------|---------|
+| 0G Storage Flow | `0x22E03a6A89B950F1c82ec5e74F8eCa321a105296` |
+| 0G Storage Mine | `0x00A9E9604b0538e06b268Fb297Df333337f9593b` |
+| 0G Storage Reward | `0xA97B57b4BdFEA2D0a25e535bd849ad4e6C440A69` |
+| 0G DA Entrance | `0xE75A073dA5bb7b0eC622170Fd268f35E675a957B` |
+
+### Architecture
+
+```
+Agent2048 Memory Flow with 0G Storage:
+
+  Fact (L1) → 0G KV Layer (key: uuid, value: {content, embedding, level})
+      ↓ merge
+  Pattern (L2) → 0G KV Layer
+      ↓ merge
+  Concept (L3) → 0G KV Layer
+      ↓ merge
+  Principle (L4) → 0G KV Layer (190 tokens, verifiable onchain)
+
+  Lineage → 0G Log Layer (append-only audit trail)
+```
+
+### Links
+
+- [0G Documentation](https://docs.0g.ai/)
+- [0G Storage](https://storage.0g.ai/)
+- [0G Faucet](https://faucet.0g.ai)
+- [0G Testnet Explorer](https://explorer.0g.ai/testnet/home)
+- [0G Storage SDK](https://docs.0g.ai/developer-hub/building-on-0g/storage/sdk)
+- [0G Compute Network](https://compute.0g.ai/)
+- [0G Discord](https://discord.gg/0glabs)
 
 ## Tests
 

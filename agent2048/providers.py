@@ -15,6 +15,14 @@ from agent2048.logging_config import logger
 
 # Built-in presets for common OpenAI-compatible providers.
 BUILTIN_PROVIDERS: dict[str, dict[str, Any]] = {
+    "0g": {
+        "base_url": "https://evmrpc-testnet.0g.ai/v1",
+        "models": [
+            "0g/compute/default",
+            "0g/compute/llama-3.3-70b",
+            "0g/compute/qwen-2.5-72b",
+        ],
+    },
     "aerolink": {
         "base_url": "https://capi.aerolink.lat/",
         "models": [

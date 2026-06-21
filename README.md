@@ -56,6 +56,8 @@ When starting a new task, the agent loads the relevant **L4 principle** (190 tok
 
 ## Demo
 
+[![Agent2048 Demo](https://asciinema.org/a/b3lZeQtR0hfJJ1Me.svg)](https://asciinema.org/a/b3lZeQtR0hfJJ1Me)
+
 ```text
 $ agent2048 tui
 Agent2048 Control Panel

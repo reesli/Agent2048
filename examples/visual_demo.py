@@ -185,7 +185,7 @@ def main():
         # Check for merges
         if facts >= 3 and tag == "architecture" and patterns == 0:
             animate_merge(facts, 2, "3 FastAPI facts similar → merging")
-            facts -= 3
+            facts = max(0, facts - 3)
             patterns += 1
             raw_tokens += 50
             memory_tokens = raw_tokens - 200  # compression
@@ -194,7 +194,7 @@ def main():
         
         elif facts >= 3 and tag == "testing" and patterns == 1:
             animate_merge(facts, 2, "3 testing facts similar → merging")
-            facts -= 3
+            facts = max(0, facts - 3)
             patterns += 1
             raw_tokens += 50
             memory_tokens = raw_tokens - 200
@@ -203,7 +203,7 @@ def main():
         
         elif facts >= 3 and tag == "storage" and patterns == 2:
             animate_merge(facts, 2, "3 storage facts similar → merging")
-            facts -= 3
+            facts = max(0, facts - 3)
             patterns += 1
             raw_tokens += 50
             memory_tokens = raw_tokens - 200
@@ -212,7 +212,7 @@ def main():
         
         elif facts >= 3 and tag == "config" and patterns == 3:
             animate_merge(facts, 2, "3 config facts similar → merging")
-            facts -= 3
+            facts = max(0, facts - 3)
             patterns += 1
             raw_tokens += 50
             memory_tokens = raw_tokens - 200
@@ -221,7 +221,7 @@ def main():
         
         elif facts >= 3 and tag == "security" and patterns == 4:
             animate_merge(facts, 2, "3 security facts similar → merging")
-            facts -= 3
+            facts = max(0, facts - 3)
             patterns += 1
             raw_tokens += 50
             memory_tokens = raw_tokens - 200
@@ -230,7 +230,7 @@ def main():
         
         elif facts >= 3 and tag == "quality" and patterns == 5:
             animate_merge(facts, 2, "2 quality facts similar → merging")
-            facts -= 2
+            facts = max(0, facts - 2)
             patterns += 1
             raw_tokens += 50
             memory_tokens = raw_tokens - 150
@@ -255,10 +255,10 @@ def main():
     
     for a, b, concept_text in merge_pairs:
         animate_merge(patterns, 3, f"{a} + {b} → merging")
-        patterns -= 2
+        patterns = max(0, patterns - 2)
         concepts += 1
         raw_tokens += 80
-        memory_tokens = raw_tokens - 500
+        memory_tokens = max(190, raw_tokens - 500)
         console.print(f'  [magenta]↳ CONCEPT: "{concept_text}"[/magenta]')
         time.sleep(0.8)
     
@@ -272,10 +272,10 @@ def main():
     console.print()
     
     animate_merge(concepts, 4, "3 concepts converging → merging")
-    concepts -= 3
+    concepts = max(0, concepts - 3)
     principles += 1
     raw_tokens += 100
-    memory_tokens = 190  # L4 is tiny
+    memory_tokens = 190
     console.print('  [bold green]↳ PRINCIPLE: "Production-ready system: FastAPI + SQLite + pytest, security hardened, 80% coverage"[/bold green]')
     time.sleep(1)
     

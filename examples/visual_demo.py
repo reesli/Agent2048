@@ -89,6 +89,14 @@ def animate_merge(items, level, msg):
     time.sleep(0.4)
 
 
+def saved_to(level, content):
+    """Print a 'saved to memory' message."""
+    color = LEVEL_COLORS.get(level, "white")
+    name = LEVEL_NAMES.get(level, f"L{level}")
+    console.print(f"  [{color}]💾 Saved to L{level} ({name})[/{color}]: {content[:60]}...")
+    time.sleep(0.3)
+
+
 def show_pyramid(facts, patterns, concepts, principles):
     """Show the pyramid visually."""
     console.print()
@@ -190,6 +198,7 @@ def main():
             raw_tokens += 50
             memory_tokens = raw_tokens - 200  # compression
             console.print('  [yellow]↳ PATTERN: "All endpoints use FastAPI"[/yellow]')
+            saved_to(2, "All endpoints use FastAPI")
             time.sleep(0.5)
         
         elif facts >= 3 and tag == "testing" and patterns == 1:
@@ -199,6 +208,7 @@ def main():
             raw_tokens += 50
             memory_tokens = raw_tokens - 200
             console.print('  [yellow]↳ PATTERN: "Project uses pytest with mocking"[/yellow]')
+            saved_to(2, "Project uses pytest with mocking")
             time.sleep(0.5)
         
         elif facts >= 3 and tag == "storage" and patterns == 2:
@@ -208,6 +218,7 @@ def main():
             raw_tokens += 50
             memory_tokens = raw_tokens - 200
             console.print('  [yellow]↳ PATTERN: "SQLite + fastembed for memory"[/yellow]')
+            saved_to(2, "SQLite + fastembed for memory")
             time.sleep(0.5)
         
         elif facts >= 3 and tag == "config" and patterns == 3:
@@ -217,6 +228,7 @@ def main():
             raw_tokens += 50
             memory_tokens = raw_tokens - 200
             console.print('  [yellow]↳ PATTERN: "Pydantic-based configuration"[/yellow]')
+            saved_to(2, "Pydantic-based configuration")
             time.sleep(0.5)
         
         elif facts >= 3 and tag == "security" and patterns == 4:
@@ -226,6 +238,7 @@ def main():
             raw_tokens += 50
             memory_tokens = raw_tokens - 200
             console.print('  [yellow]↳ PATTERN: "Security hardened, production-ready"[/yellow]')
+            saved_to(2, "Security hardened, production-ready")
             time.sleep(0.5)
         
         elif facts >= 3 and tag == "quality" and patterns == 5:
@@ -235,6 +248,7 @@ def main():
             raw_tokens += 50
             memory_tokens = raw_tokens - 150
             console.print('  [yellow]↳ PATTERN: "Quality metrics: 137 tests, 80% coverage"[/yellow]')
+            saved_to(2, "Quality metrics: 137 tests, 80% coverage")
             time.sleep(0.5)
     
     time.sleep(0.5)
@@ -260,6 +274,7 @@ def main():
         raw_tokens += 80
         memory_tokens = max(190, raw_tokens - 500)
         console.print(f'  [magenta]↳ CONCEPT: "{concept_text}"[/magenta]')
+        saved_to(3, concept_text)
         time.sleep(0.8)
     
     console.print()
@@ -277,6 +292,7 @@ def main():
     raw_tokens += 100
     memory_tokens = 190
     console.print('  [bold green]↳ PRINCIPLE: "Production-ready system: FastAPI + SQLite + pytest, security hardened, 80% coverage"[/bold green]')
+    saved_to(4, "Production-ready system: FastAPI + SQLite + pytest, security hardened, 80% coverage")
     time.sleep(1)
     
     console.print()

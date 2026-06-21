@@ -1,8 +1,17 @@
-# Agent2048
+<p align="center">
+  <img src="assets/logo.png" alt="Agent2048" width="300">
+</p>
 
-A CLI framework for AI agents with hierarchical memory inspired by the **2048** game.
+<h1 align="center">Agent2048</h1>
 
-> **56,000 tokens → 390 tokens (99% savings).** The agent always knows your project, without re-reading files.
+<p align="center">
+  A CLI framework for AI agents with hierarchical memory inspired by the <b>2048</b> game.
+</p>
+
+<p align="center">
+  <b>56,000 tokens → 390 tokens (99% savings).</b><br>
+  The agent always knows your project, without re-reading files.
+</p>
 
 ## Beyond Token Savings — Real Programming, Not Vibe Coding
 

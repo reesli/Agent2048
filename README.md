@@ -86,6 +86,91 @@ source .venv/bin/activate
 pip install -e .
 ```
 
+## Configuration
+
+### Quick setup with a provider
+
+Agent2048 supports 28+ providers. The fastest way to configure:
+
+```bash
+# 1. List available providers
+agent2048 providers
+
+# 2. Activate a provider (prompts for API key)
+agent2048 use openai
+# or with key and model:
+agent2048 use fireworks --key fw_yourkey --model accounts/fireworks/models/glm-5p2
+
+# 3. List available models from the provider
+agent2048 models
+
+# 4. Set active model
+agent2048 model gpt-4o-mini
+```
+
+### Manual config via `.env`
+
+You can edit the config file directly:
+
+```bash
+# Global config (works in any directory)
+vi ~/.config/agent2048/.env
+
+# Or per-project config (in project root)
+vi .env
+```
+
+```bash
+# .env example
+OPENAI_API_KEY=your-api-key-here
+OPENAI_BASE_URL=https://api.openai.com/v1
+MODEL=gpt-4o-mini
+EMBEDDING_PROVIDER=fastembed
+EMBEDDING_MODEL=BAAI/bge-small-en-v1.5
+DB_PATH=
+```
+
+### Provider examples
+
+```bash
+# OpenAI
+OPENAI_API_KEY=sk-...
+OPENAI_BASE_URL=https://api.openai.com/v1
+MODEL=gpt-4o-mini
+
+# Fireworks AI (GLM 5.2, Kimi K2.7, etc.)
+OPENAI_API_KEY=fw_...
+OPENAI_BASE_URL=https://api.fireworks.ai/inference/v1
+MODEL=accounts/fireworks/models/glm-5p2
+
+# Nvidia NIM
+OPENAI_API_KEY=nvapi-...
+OPENAI_BASE_URL=https://integrate.api.nvidia.com/v1
+MODEL=minimaxai/minimax-m3
+
+# OpenRouter
+OPENAI_API_KEY=sk-or-...
+OPENAI_BASE_URL=https://openrouter.ai/api/v1
+MODEL=openai/gpt-4o-mini
+
+# Ollama (local, no API key needed)
+OPENAI_API_KEY=ollama
+OPENAI_BASE_URL=http://localhost:11434/v1
+MODEL=llama3.3
+```
+
+### Per-project memory
+
+Each project gets its own memory database in `.agent2048/memory.db` (relative to your working directory). This means:
+- Agent working in `/project-a` has its own memory
+- Agent working in `/project-b` has its own memory
+- No cross-contamination between projects
+
+Leave `DB_PATH=` empty to use the default per-project path, or set it explicitly:
+```bash
+DB_PATH=.agent2048/memory.db
+```
+
 Supports any OpenAI-compatible provider. Check the list:
 
 ```bash
